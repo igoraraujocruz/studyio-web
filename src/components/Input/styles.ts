@@ -1,7 +1,13 @@
 import { shade } from 'polished';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  isFocused: boolean;
+  isFilled: boolean;
+  isErrored: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,6 +22,19 @@ export const Container = styled.div`
     background: transparent;
   }
 
+  ${(props) => props.isFocused && css`
+    border-color: #ff9000;
+    color: #ff9000;
+  `}
+
+  ${(props) => props.isFilled && css`
+    color: #ff9000;
+  `}
+
+  ${(props) => props.isErrored && css`
+    border-color: #c53030;
+  `}
+
   input {
     border: 0;
     box-shadow: white;
@@ -27,4 +46,13 @@ export const Container = styled.div`
     margin-right: 0.5rem;
   }
 
+`;
+
+export const Error = styled.div`
+  height: 20px;
+  margin-left: -1.4rem;
+
+  svg {
+    margin: 0;
+  }
 `;
