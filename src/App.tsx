@@ -5,10 +5,10 @@ import { Routes } from './routes';
 export function App() {
   return (
     <>
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
-    <GlobalStyle />
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+      <GlobalStyle />
     </>
   );
 }
