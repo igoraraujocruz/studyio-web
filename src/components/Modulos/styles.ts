@@ -6,7 +6,6 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100vw;
   align-items: center;
-  color: white;
 `;
 
 export const ModuloContent = styled.div`
@@ -22,12 +21,13 @@ export const ModuloContent = styled.div`
 
 export const ModuloStyle = styled.div`
   margin: 1rem;
-  padding: 1.5rem;
+  padding: 1rem;
   border-radius: 1.5rem;
   text-align: center;
   border: 0.1rem solid #fff;
   transition: 0.5s;
   cursor: pointer;
+  font-size: 0.9rem;
 
   &:hover {
     background: ${shade(0.9, '#6610f2')}

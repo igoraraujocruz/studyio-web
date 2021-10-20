@@ -4,11 +4,13 @@ import { shade } from 'polished';
 export default createGlobalStyle`
 
 :root {
-        --background: #312E38;
+        --background: #6610f2;
+        --sweet-white: #f4ede8;
     }
 
     *  {
         text-decoration: none;
+        color: inherit;
         margin: 0;
         padding: 0;
         outline: 0;
@@ -29,6 +31,7 @@ export default createGlobalStyle`
     body, input, button {
         font-family: 'Noto Sans Mono', monospace;
         font-size: 16px;
+        color: var(--sweet-white);
     }
 
     h1, h2, h3, h4, h5, h6, strong {
