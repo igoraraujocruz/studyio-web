@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import { shade } from 'polished';
 
 export default createGlobalStyle`
 
@@ -21,8 +22,8 @@ export default createGlobalStyle`
     }
 
     body {
-        background: var(--background);
-        -webkit-font-smoothing: antialiased;
+      background: ${shade(0.8, '#6610f2')};
+      -webkit-font-smoothing: antialiased;
     }
 
     body, input, button {
