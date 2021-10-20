@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.button`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #232129;
     font-size: 1rem;
     height: 4rem;
@@ -15,5 +18,9 @@ export const Container = styled.button`
 
     &:hover {
       background-color: transparent;
+    }
+
+    svg {
+      margin-right: 0.5rem;
     }
 `;
