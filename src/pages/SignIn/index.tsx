@@ -8,15 +8,18 @@ import { Container } from './styles';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { getValidationErrors } from '../../utils/getValidationErrors';
+import { useAuth } from '../../hooks/useAuth';
 
-interface LogonProps {
+interface SignInProps {
   email: string;
   password: string;
 }
 
-export const Logon = () => {
+export const SignIn = () => {
   const formRef = useRef<FormHandles>(null);
-  const handleSubmit = useCallback(async (data: LogonProps) => {
+  const { signIn } = useAuth();
+
+  const handleSubmit = useCallback(async (data: SignInProps) => {
     try {
       formRef.current?.setErrors({});
       const schema = Yup.object().shape({
@@ -26,6 +29,11 @@ export const Logon = () => {
 
       await schema.validate(data, {
         abortEarly: false,
+      });
+
+      signIn({
+        email: data.email,
+        password: data.password,
       });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
