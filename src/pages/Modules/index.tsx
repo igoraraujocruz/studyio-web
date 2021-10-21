@@ -1,7 +1,7 @@
 import { IoBook } from 'react-icons/io5';
 import { Container, ModuloStyle, ModuloContent } from './styles';
 
-export const Modulos = () => (
+export const Modules = () => (
   <Container>
     <h1>Módulos</h1>
     <p>Selecione o módulo para ver as aulas disponíveis:</p>
