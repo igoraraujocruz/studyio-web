@@ -46,7 +46,7 @@ export const Input = ({ name, icon: Icon, ...props }: InputProps) => {
         {...props}
       />
       {error && (
-        <Error>
+        <Error title={error}>
           <FiAlertCircle color="#c53030" size={20} />
         </Error>
       )}
