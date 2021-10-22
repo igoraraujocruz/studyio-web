@@ -9,6 +9,7 @@ import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 import { getValidationErrors } from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/useAuth';
+import { useToast } from '../../hooks/useToast';
 
 interface SignInProps {
   email: string;
@@ -18,6 +19,7 @@ interface SignInProps {
 export const SignIn = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(async (data: SignInProps) => {
     try {
@@ -40,8 +42,13 @@ export const SignIn = () => {
         const errors = getValidationErrors(err);
         formRef.current?.setErrors(errors);
       }
+      addToast({
+        type: 'error',
+        title: 'Erro na autenticação',
+        description: 'Ocorreu um erro ao fazer login. Favor checar as credencias.',
+      });
     }
-  }, []);
+  }, [signIn, addToast]);
 
   return (
     <Container>
