@@ -1,11 +1,24 @@
-import styled from 'styled-components';
 import { shade } from 'polished';
+
+import styled, { keyframes } from 'styled-components';
+
+const apperFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
   align-items: center;
+  animation: ${apperFromLeft} 1s;
 `;
 
 export const ModuloContent = styled.div`
