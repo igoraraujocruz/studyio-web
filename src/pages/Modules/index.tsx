@@ -1,61 +1,58 @@
 import { IoBook } from 'react-icons/io5';
-import { Container, ModuloStyle, ModuloContent } from './styles';
+import { useEffect, useState } from 'react';
+import {
+  Container, ModulesStyle, Content, Lessons, ModuleStyle, ModuleDescription,
+} from './styles';
+import { useModule } from '../../hooks/useModule';
+import { api } from '../../services/api';
+import { Module } from '../../interfaces/Module';
 
-export const Modules = () => (
-  <Container>
-    <h1>Módulos</h1>
-    <p>Selecione o módulo para ver as aulas disponíveis:</p>
-    <ModuloContent>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-      <ModuloStyle>
-        <h3>Introdução e Preparatório</h3>
-        <p>3/3 aulas</p>
-        <IoBook size={30} />
-      </ModuloStyle>
-    </ModuloContent>
-  </Container>
-);
+export const Modules = () => {
+  const { modules } = useModule();
+  const [moduleId, setModuleId] = useState('');
+  const [moduleDescription, setModuleDescription] = useState<Module>({} as Module);
+
+  useEffect(() => {
+    api.get(`modules/${moduleId}`)
+      .then((response) => setModuleDescription(response.data));
+  }, [moduleId]);
+
+  return (
+    <Container>
+      <h1>Módulos</h1>
+      <p>Selecione o módulo para ver as aulas disponíveis:</p>
+      <Content>
+        <ModulesStyle>
+          {modules ? modules.map((module) => (
+            <ModuleStyle key={module.id} onClick={() => setModuleId(module.id)}>
+              <Lessons>
+                <p>{module.lessons.length}</p>
+                <p>aulas</p>
+              </Lessons>
+
+              <h1>{module.name}</h1>
+              <IoBook size={30} />
+            </ModuleStyle>
+          ))
+            : <p>Carregando...</p>}
+
+        </ModulesStyle>
+      </Content>
+      {moduleDescription
+          && (
+            <ModuleDescription>
+              <h1>
+                {moduleDescription.name}
+              </h1>
+              <p>{moduleDescription.description}</p>
+              {moduleDescription.lessons && moduleDescription.lessons.map((lesson) => (
+                <div className="description">
+                  <span>{lesson.name}</span>
+                  <p>{lesson.description}</p>
+                </div>
+              ))}
+            </ModuleDescription>
+          )}
+    </Container>
+  );
+};

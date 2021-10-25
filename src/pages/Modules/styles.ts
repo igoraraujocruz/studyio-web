@@ -21,8 +21,11 @@ export const Container = styled.div`
   animation: ${apperFromLeft} 1s;
 `;
 
-export const ModuloContent = styled.div`
-  display: grid;
+export const Content = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   margin-top: 2rem;
   grid-template-columns: 1fr 1fr 1fr;
   justify-content: center;
@@ -32,7 +35,30 @@ export const ModuloContent = styled.div`
   }
 `;
 
-export const ModuloStyle = styled.div`
+export const ModulesStyle = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  transition: 0.5s;
+  cursor: pointer;
+  font-size: 0.9rem;
+
+  @media(max-width: 820px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  @media(max-width: 650px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+export const ModuleStyle = styled.div`
   margin: 1rem;
   padding: 1rem;
   border-radius: 1.5rem;
@@ -45,4 +71,33 @@ export const ModuloStyle = styled.div`
   &:hover {
     background: ${shade(0.9, '#6610f2')}
   };
+`;
+
+export const Lessons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  p:first-child {
+    margin-right: 0.5rem;
+  }
+`;
+
+export const ModuleDescription = styled.div`
+
+  animation: ${apperFromLeft} 1s;
+
+  p{
+    color: var(--gray);
+  }
+
+  .description {
+    margin-top: 1rem;
+    margin-left: 1rem;
+
+     p {
+       margin-left: 1rem;
+       color: var(--gray);
+     }
+  }
 `;

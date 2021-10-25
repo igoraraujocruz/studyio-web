@@ -6,6 +6,7 @@ export default createGlobalStyle`
 :root {
         --background: #6610f2;
         --sweet-white: #f4ede8;
+        --gray: #9e9e9e;
     }
 
     *  {
@@ -24,6 +25,7 @@ export default createGlobalStyle`
     }
 
     body {
+      overflow-x: hidden;
       background: ${shade(0.8, '#6610f2')};
       -webkit-font-smoothing: antialiased;
     }
