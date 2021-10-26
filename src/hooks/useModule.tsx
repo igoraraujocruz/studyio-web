@@ -8,8 +8,14 @@ interface ModulesProviderProps {
     children: ReactNode;
 }
 
+type ModuleInput = Pick<Module, 'name' | 'description'>;
+type ModuleEdit = Omit<Module, 'lessons'>;
+
 interface ModulesContextData {
     modules: Module[];
+    createModule: (module: ModuleInput) => Promise<void>;
+    removeModule: (id: string) => void;
+    editModule: (module: ModuleEdit) => Promise<void>;
 }
 
 const ModulesContext = createContext<ModulesContextData>({} as ModulesContextData);
@@ -22,9 +28,48 @@ export function ModuleProvider({ children }: ModulesProviderProps) {
       .then((response) => setModules(response.data));
   }, []);
 
+  const createModule = async (moduleInput: ModuleInput) => {
+    const response = await api.post('/modules', {
+      ...moduleInput,
+    });
+
+    const module = response.data;
+
+    setModules([
+      ...modules,
+      module,
+    ]);
+  };
+
+  const removeModule = async (id: string) => {
+    const moduleIndex = modules.findIndex((module) => module.id === id);
+
+    if (moduleIndex >= 0) {
+      modules.splice(moduleIndex, 1);
+      await api.delete(`/modules/${id}`);
+
+      setModules([...modules]);
+    }
+  };
+
+  const editModule = async (module: ModuleEdit) => {
+    const orderUpdated = await api.put(
+      `/modules/${module.id}`,
+      { ...module },
+    );
+
+    const ordersUpdated = modules.map((order) => (order.id !== orderUpdated.data.id
+      ? order : orderUpdated.data));
+
+    setModules(ordersUpdated);
+  };
+
   return (
     <ModulesContext.Provider value={{
       modules,
+      createModule,
+      removeModule,
+      editModule,
     }}
     >
       {children}

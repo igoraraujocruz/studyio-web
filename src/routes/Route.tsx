@@ -16,7 +16,7 @@ export const Route = ({ isPrivate = false, component: Component, ...rest }: Rout
         <Component />
       ) : (
         <Redirect to={{
-          pathname: isPrivate ? '/acess' : '/admin',
+          pathname: isPrivate ? '/access' : '/admin',
           state: {
             from: location,
           },

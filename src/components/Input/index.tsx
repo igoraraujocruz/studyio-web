@@ -44,6 +44,7 @@ export const Input = ({ name, icon: Icon, ...props }: InputProps) => {
         onBlur={handleInputBlur}
         ref={inputRef}
         {...props}
+        defaultValue={defaultValue}
       />
       {error && (
         <Error title={error}>

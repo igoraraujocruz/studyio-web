@@ -5,7 +5,7 @@ export const Header = () => (
   <>
     <Container>
       <h1>StudyIo</h1>
-      <Link to="acess">
+      <Link to="access">
         <p>SignIn</p>
       </Link>
     </Container>

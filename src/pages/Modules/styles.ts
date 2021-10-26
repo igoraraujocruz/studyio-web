@@ -84,15 +84,19 @@ export const Lessons = styled.div`
 `;
 
 export const ModuleDescription = styled.div`
+  max-width: 50vw;
 
-  animation: ${apperFromLeft} 1s;
+  @media(max-width: 600px) {
+    max-width: 70vw;
+  }
 
   p{
+    margin-left: 1rem;
     color: var(--gray);
   }
 
   .description {
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-left: 1rem;
 
      p {

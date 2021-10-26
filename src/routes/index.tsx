@@ -7,7 +7,7 @@ import { Route } from './Route';
 export const Routes = () => (
   <Switch>
     <Route path="/" exact component={Modules} />
-    <Route path="/acess" component={SignIn} />
+    <Route path="/access" component={SignIn} />
     <Route path="/admin" component={Admin} isPrivate />
   </Switch>
 );

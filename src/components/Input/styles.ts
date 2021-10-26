@@ -16,6 +16,7 @@ export const Container = styled.div<ContainerProps>`
   border-radius: 0.5rem;
   border: 0.2rem solid #232129;
   padding: 1rem;
+  position: relative;
 
 
   &::placeholder {
