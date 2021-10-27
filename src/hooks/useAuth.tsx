@@ -31,6 +31,7 @@ const AuthProvider = ({ children }: childrenType) => {
     const user = localStorage.getItem('@StudyIo:user');
 
     if (token && user) {
+      api.defaults.headers.authorization = `Bearer ${token}`;
       return { token, user: JSON.parse(user) };
     }
 
@@ -47,6 +48,8 @@ const AuthProvider = ({ children }: childrenType) => {
 
     localStorage.setItem('@StudyIo:token', token);
     localStorage.setItem('@StudyIo:user', JSON.stringify(user));
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
 
     setData({ token, user });
   }, []);

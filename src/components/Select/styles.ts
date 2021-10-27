@@ -4,13 +4,12 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-`;
+  margin-top: 0.5rem;
+  padding: 1rem;
 
-export const Content = styled.div`
-  display: flex;
-
-  @media(max-width: 600px) {
-    display: block;
+  select {
+    font-size: 1.3rem;
+    background: none;
+    border: none;
   }
 `;

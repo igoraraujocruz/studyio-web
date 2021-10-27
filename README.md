@@ -9,7 +9,7 @@
   [x] POST
   [x] DELETE
   [x] GET
-  [ ] Update
+  [x] Update
 - Fazer os testes do front e back
 - inserir Swagger
 - Configurar Docker

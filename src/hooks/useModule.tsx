@@ -53,15 +53,15 @@ export function ModuleProvider({ children }: ModulesProviderProps) {
   };
 
   const editModule = async (module: ModuleEdit) => {
-    const orderUpdated = await api.put(
+    const moduleUpdated = await api.put(
       `/modules/${module.id}`,
       { ...module },
     );
 
-    const ordersUpdated = modules.map((order) => (order.id !== orderUpdated.data.id
-      ? order : orderUpdated.data));
+    const modulesUpdated = modules.map((mod) => (mod.id !== moduleUpdated.data.id
+      ? mod : moduleUpdated.data));
 
-    setModules(ordersUpdated);
+    setModules(modulesUpdated);
   };
 
   return (

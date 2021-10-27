@@ -2,6 +2,7 @@ import React from 'react';
 import { AuthProvider } from './useAuth';
 import { ToastProvider } from './useToast';
 import { ModuleProvider } from './useModule';
+import { LessonProvider } from './useLesson';
 
 interface childrenType {
   children: React.ReactNode
@@ -10,7 +11,9 @@ interface childrenType {
 export const AppProvider = ({ children }: childrenType) => (
   <AuthProvider>
     <ModuleProvider>
-      <ToastProvider>{children}</ToastProvider>
+      <LessonProvider>
+        <ToastProvider>{children}</ToastProvider>
+      </LessonProvider>
     </ModuleProvider>
   </AuthProvider>
 );
