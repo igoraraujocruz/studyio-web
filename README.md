@@ -48,7 +48,7 @@ Tecnologias que foram usadas para desenvolver este cliente web.
 - [TypeScript](https://www.typescriptlang.org/)
 - [React Router DOM](https://reacttraining.com/react-router/)
 - [React Icons](https://react-icons.netlify.com/#/)
-- [UnForm](https://unform.dev/) [💜](https://rocketseat.com.br/)
+- [UnForm](https://unform.dev/)
 - [Yup](https://github.com/jquense/yup)
 - [Styled Components](https://styled-components.com/)
 - [Polished](https://github.com/styled-components/polished)
