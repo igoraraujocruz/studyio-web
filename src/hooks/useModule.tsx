@@ -55,7 +55,7 @@ export function ModuleProvider({ children }: ModulesProviderProps) {
   const editModule = async (module: ModuleEdit) => {
     const moduleUpdated = await api.put(
       `/modules/${module.id}`,
-      { ...module },
+      { name: module.name, description: module.description },
     );
 
     const modulesUpdated = modules.map((mod) => (mod.id !== moduleUpdated.data.id

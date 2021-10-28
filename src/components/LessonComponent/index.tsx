@@ -34,7 +34,7 @@ export const LessonComponent = () => {
   const [lessonId, setLessonId] = useState('');
 
   useEffect(() => {
-    api.get(`modules/${lessonId}`)
+    api.get(`lessons/${lessonId}`)
       .then((response) => formRef.current?.setData(response.data));
   }, [lessonId]);
 

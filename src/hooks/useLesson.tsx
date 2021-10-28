@@ -54,7 +54,12 @@ export function LessonProvider({ children }: LessonsProviderProps) {
   const editLesson = async (lesson: Lesson) => {
     const lessonUpdated = await api.put(
       `/lessons/${lesson.id}`,
-      { ...lesson },
+      {
+        name: lesson.name,
+        moduleName: lesson.moduleName,
+        date: lesson.date,
+        description: lesson.description,
+      },
     );
 
     const lessonsUpdated = lessons.map((newLesson) => (newLesson.id !== lessonUpdated.data.id
