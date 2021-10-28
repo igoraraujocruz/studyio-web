@@ -23,7 +23,7 @@ export const Modules = () => {
       <p>Selecione o módulo para ver as aulas disponíveis:</p>
       <Content>
         <ModulesStyle>
-          {modules ? modules.map((module) => (
+          {modules ? modules.sort((a, b) => ((a.name < b.name) ? -1 : 1)).map((module) => (
             <ModuleStyle key={module.id} onClick={() => setModuleId(module.id)}>
               <Lessons>
                 <p>{module.lessons.length}</p>
@@ -45,12 +45,14 @@ export const Modules = () => {
                 {moduleDescription.name}
               </h1>
               <p>{moduleDescription.description}</p>
-              {moduleDescription.lessons && moduleDescription.lessons.map((lesson) => (
-                <div className="description">
-                  <span>{lesson.name}</span>
-                  <p>{lesson.description}</p>
-                </div>
-              ))}
+              {moduleDescription.lessons && moduleDescription.lessons
+                .sort((a, b) => ((a.name < b.name) ? -1 : 1))
+                .map((lesson) => (
+                  <div className="description">
+                    <span>{lesson.name}</span>
+                    <p>{lesson.description}</p>
+                  </div>
+                ))}
             </ModuleDescription>
           )}
     </Container>
