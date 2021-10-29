@@ -52,6 +52,7 @@ const AuthProvider = ({ children }: childrenType) => {
     api.defaults.headers.authorization = `Bearer ${token}`;
 
     setData({ token, user });
+    window.location.href = '/admin';
   }, []);
 
   const signOut = useCallback(() => {

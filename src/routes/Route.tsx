@@ -8,20 +8,21 @@ interface RouteProps extends ReactDomRouteProps {
 
 export const Route = ({ isPrivate = false, component: Component, ...rest }: RouteProps) => {
   const { user } = useAuth();
+  const isLogged = Boolean(user?.email);
 
   return (
     <ReactDOMRoute
       {...rest}
-      render={({ location }) => (isPrivate === !!user ? (
-        <Component />
-      ) : (
+      render={({ location }) => (isPrivate && !isLogged ? (
         <Redirect to={{
-          pathname: isPrivate ? '/access' : '/admin',
+          pathname: '/access',
           state: {
             from: location,
           },
         }}
         />
+      ) : (
+        <Component />
       ))}
     />
   );
