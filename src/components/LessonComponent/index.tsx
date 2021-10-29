@@ -15,6 +15,7 @@ import { useLesson } from '../../hooks/useLesson';
 import { useModule } from '../../hooks/useModule';
 import { api } from '../../services/api';
 import { Select } from '../Select';
+import { DatePicker } from '../DatePicker';
 
 interface LessonProps {
   id: string;
@@ -127,7 +128,7 @@ export const LessonComponent = () => {
           <Select name="moduleName" modules={modules} />
           <Input name="name" placeholder="Nome do módulo" type="text" />
           <Input name="description" placeholder="Descrição do módulo (Opcional)" type="text" />
-          <Input name="date" placeholder="Data" type="text" />
+          <DatePicker placeholderText="Data" name="date" />
           {lessonId ? <Button type="submit">Editar Aula</Button> : <Button type="submit">Criar Aula</Button>}
         </Form>
         <div className="existModules">
