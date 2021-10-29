@@ -30,7 +30,7 @@
   <a href="#%EF%B8%8F-sobre-o-projeto">Sobre o Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-como-começar">Como começar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-license">License</a>
+  <a href="#-license">Licença</a>
 </p>
 
 </br>
@@ -85,8 +85,13 @@ $ yarn
 # Inicie o cliente
 $ yarn start
 
-# Fim!
+# Pronto, com a aplicação funcionando, já é possível acessar:
+localhost:3000/
+
 ```
+### Para ter acesso ao Painel Administrador, é necessário criar um usuário na API.
+Aqui estão os passos de [como criar um usuário administrativo](https://github.com/igoraraujocruz/studyio-api#como-criar-um-usu%C3%A1rio-administrativo)
+
 
 
 ## 📝 License
