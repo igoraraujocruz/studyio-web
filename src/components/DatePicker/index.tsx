@@ -21,13 +21,10 @@ export function DatePicker({ name, ...rest }: Props) {
     registerField({
       name: fieldName,
       ref: datepickerRef.current,
+      path: 'props.selected',
       clearValue: (ref: any) => {
         ref.clear();
       },
-      setValue: (e, v) => {
-        setDate(new Date(v));
-      },
-      getValue: () => datepickerRef.current.props.selected,
     });
   }, [fieldName, registerField]);
 
