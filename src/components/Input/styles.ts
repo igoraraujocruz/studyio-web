@@ -14,7 +14,12 @@ export const Container = styled.div<ContainerProps>`
   align-items: center;
   margin-top: 0.5rem;
   border-radius: 0.5rem;
-  border: 0.2rem solid #232129;
+  border-style: solid;
+  border-bottom-width: 0.1rem;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+
   padding: 1rem;
   position: relative;
 
@@ -40,7 +45,7 @@ export const Container = styled.div<ContainerProps>`
   input {
     border: 0;
     box-shadow: white;
-    -webkit-box-shadow: 0 0 0 30px ${shade(0.8, '#6610f2')} inset;
+    -webkit-box-shadow: 0 0 0 30px ${shade(0.9, '#6610f2')} inset;
     -webkit-text-fill-color: var(--sweet-white);
   }
 

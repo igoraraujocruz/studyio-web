@@ -1,3 +1,4 @@
+import { shade } from 'polished';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -11,7 +12,8 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   padding: 2rem;
-  border: 1px solid #fff;
+  border: 5px solid rgba(255,255,255, 0.5);
+  background: ${shade(0.9, '#6610f2')};
    .modules {
     display: flex;
     list-style-type: none;

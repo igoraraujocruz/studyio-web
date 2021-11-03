@@ -1,99 +1,76 @@
-import { Form } from '@unform/web';
-import * as Yup from 'yup';
-import {
-  useCallback, useEffect, useRef, useState,
-} from 'react';
-import { FormHandles } from '@unform/core';
+import { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
-import { FaExchangeAlt } from 'react-icons/fa';
-import { Container, Content } from './styles';
-import { Input } from '../Input';
-import { Button } from '../Button';
-import { getValidationErrors } from '../../utils/getValidationErrors';
-import { useToast } from '../../hooks/useToast';
 import { useLesson } from '../../hooks/useLesson';
-import { useModule } from '../../hooks/useModule';
 import { api } from '../../services/api';
-import { Select } from '../Select';
-import { DatePicker } from '../DatePicker';
+import { Input } from '../Input';
+import { useToast } from '../../hooks/useToast';
+import { Container, Content } from './styles';
+import { useModule } from '../../hooks/useModule';
+import { Button } from '../Button';
 
-interface LessonProps {
-  id: string;
+interface FormProps {
   name: string;
   description: string;
   date: string;
   moduleName: string;
 }
 
+interface LessonProps {
+  id: string;
+  name: string;
+  description: string;
+  moduleId: string;
+  date: string;
+}
+
 export const LessonComponent = () => {
-  const formRef = useRef<FormHandles>(null);
+  const {
+    register, handleSubmit, getValues, reset,
+  } = useForm();
+  const [lessonId, setLessonId] = useState('');
+  const [moduleName, setModuleName] = useState('');
+  const [editValueLesson, setEditValueLesson] = useState<LessonProps>({} as LessonProps);
+  const { addToast } = useToast();
   const {
     createLesson, editLesson, removeLesson, lessons,
   } = useLesson();
   const { modules } = useModule();
-  const { addToast } = useToast();
-  const [lessonId, setLessonId] = useState('');
+
+  const onSubmit = (data: FormProps) => {
+    createLesson({
+      name: data.name,
+      description: data.description,
+      moduleName: data.moduleName,
+      date: data.date,
+    });
+    reset();
+  };
+
+  const onSubmitEdit = (data: FormProps) => {
+    const multipleValues = getValues(['moduleName', 'name', 'description', 'date']);
+
+    editLesson({
+      id: editValueLesson.id,
+      moduleName: multipleValues[0] === '' ? editValueLesson.moduleId : data.moduleName,
+      name: multipleValues[1] === '' ? editValueLesson.name : data.name,
+      description: multipleValues[2] === '' ? editValueLesson.description : data.description,
+      date: multipleValues[3] === '' ? editValueLesson.date : data.date,
+    });
+
+    reset();
+    setLessonId('');
+  };
 
   useEffect(() => {
     api.get(`lessons/${lessonId}`)
-      .then((response) => formRef.current?.setData(response.data));
+      .then((response) => setEditValueLesson(response.data));
   }, [lessonId]);
 
-  const handleCreate = () => {
-    setLessonId('');
-    formRef.current?.reset();
-  };
-
-  const handleSubmit = useCallback(async (data: LessonProps, { reset }) => {
-    try {
-      formRef.current?.setErrors({});
-      const schema = Yup.object().shape({
-        name: Yup.string().required('O Nome do módulo obrigatório'),
-        description: Yup.string(),
-        date: Yup.string(),
-        moduleName: Yup.string(),
-      });
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      if (!lessonId) {
-        createLesson({
-          name: data.name,
-          description: data.description,
-          date: data.date,
-          moduleName: data.moduleName,
-        });
-      } else {
-        editLesson({
-          id: lessonId,
-          name: data.name,
-          description: data.description,
-          date: data.date,
-          moduleName: data.moduleName,
-        });
-      }
-
-      addToast({
-        type: 'success',
-        title: 'Aula criada com sucesso',
-      });
-
-      reset();
-      setLessonId('');
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
-        formRef.current?.setErrors(errors);
-      }
-      addToast({
-        type: 'error',
-        title: 'Erro na edição da aula',
-        description: 'Ocorreu um erro ao tentar criar um módulo.',
-      });
-    }
-  }, [addToast, createLesson, editLesson, lessonId]);
+  useEffect(() => {
+    api.get(`modules/${editValueLesson.moduleId}`)
+      .then((response) => setModuleName(response.data.name));
+  }, [lessonId, editValueLesson]);
 
   const handleDelete = useCallback(async (id: string) => {
     try {
@@ -115,28 +92,24 @@ export const LessonComponent = () => {
   return (
     <Container>
       <Content>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          {lessonId ? (
-            <div className="editStyle">
-              {' '}
-              <h3>Editar Aula</h3>
-              {' '}
-              <FaExchangeAlt onClick={() => handleCreate()} size={20} />
-              {' '}
-            </div>
-          ) : <h3>Criar Aula</h3>}
-          <Select name="moduleName" modules={modules} />
-          <Input name="name" placeholder="Nome do módulo" type="text" />
-          <Input name="description" placeholder="Descrição do módulo (Opcional)" type="text" />
-          <DatePicker placeholderText="Data" name="date" />
-          {lessonId ? <Button type="submit">Editar Aula</Button> : <Button type="submit">Criar Aula</Button>}
-        </Form>
+        <form onSubmit={lessonId ? handleSubmit(onSubmitEdit) : handleSubmit(onSubmit)}>
+          <select defaultValue={editValueLesson.moduleId} {...register('moduleName')}>
+            {modules.map((module) => (
+              <option key={module.id} value={module.name}>
+                {module.name}
+              </option>
+            ))}
+          </select>
+          <input defaultValue={editValueLesson.name} type="text" {...register('name')} placeholder="nome" />
+          <input defaultValue={editValueLesson.description} type="text" {...register('description')} placeholder="descrição" />
+          <input defaultValue={editValueLesson.date} type="text" {...register('date')} placeholder="data" />
+          <Button type="submit">Enviar</Button>
+        </form>
         <div className="existModules">
-          <h3>Modulos existentes:</h3>
+          <h3>Aulas existentes:</h3>
           {lessons.map((lesson) => (
             <ul key={lesson.id} className="modules">
               <li>{lesson.name}</li>
-
               <AiOutlineEdit size={20} onClick={() => setLessonId(lesson.id)} />
               <AiOutlineDelete size={20} onClick={() => handleDelete(lesson.id)} />
             </ul>
