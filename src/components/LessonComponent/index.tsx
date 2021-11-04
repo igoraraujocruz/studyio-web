@@ -29,7 +29,7 @@ export const LessonComponent = () => {
     register, handleSubmit, getValues, reset,
   } = useForm();
   const [lessonId, setLessonId] = useState('');
-  const [moduleName, setModuleName] = useState('');
+  const [nameModule, setNameModule] = useState('');
   const [editValueLesson, setEditValueLesson] = useState<LessonProps>({} as LessonProps);
   const { addToast } = useToast();
   const {
@@ -38,6 +38,7 @@ export const LessonComponent = () => {
   const { modules } = useModule();
 
   const onSubmit = (data: FormProps) => {
+    console.log(data);
     createLesson({
       name: data.name,
       description: data.description,
@@ -49,10 +50,9 @@ export const LessonComponent = () => {
 
   const onSubmitEdit = (data: FormProps) => {
     const multipleValues = getValues(['moduleName', 'name', 'description', 'date']);
-
     editLesson({
       id: editValueLesson.id,
-      moduleName: multipleValues[0] === '' ? editValueLesson.moduleId : data.moduleName,
+      moduleName: multipleValues[0] === '' ? nameModule : data.moduleName,
       name: multipleValues[1] === '' ? editValueLesson.name : data.name,
       description: multipleValues[2] === '' ? editValueLesson.description : data.description,
       date: multipleValues[3] === '' ? editValueLesson.date : data.date,
@@ -69,7 +69,7 @@ export const LessonComponent = () => {
 
   useEffect(() => {
     api.get(`modules/${editValueLesson.moduleId}`)
-      .then((response) => setModuleName(response.data.name));
+      .then((response) => setNameModule(response.data.name));
   }, [lessonId, editValueLesson]);
 
   const handleDelete = useCallback(async (id: string) => {
@@ -93,12 +93,17 @@ export const LessonComponent = () => {
     <Container>
       <Content>
         <form onSubmit={lessonId ? handleSubmit(onSubmitEdit) : handleSubmit(onSubmit)}>
-          <select defaultValue={editValueLesson.moduleId} {...register('moduleName')}>
-            {modules.map((module) => (
-              <option key={module.id} value={module.name}>
-                {module.name}
+          <select {...register('moduleName')}>
+            {lessonId ? (
+              <option key={nameModule} value={nameModule}>
+                {nameModule}
               </option>
-            ))}
+            )
+              : modules.map((module) => (
+                <option key={module.id} value={module.name}>
+                  {module.name}
+                </option>
+              ))}
           </select>
           <input defaultValue={editValueLesson.name} type="text" {...register('name')} placeholder="nome" />
           <input defaultValue={editValueLesson.description} type="text" {...register('description')} placeholder="descrição" />
