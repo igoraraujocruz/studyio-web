@@ -8,6 +8,7 @@ import { useToast } from '../../hooks/useToast';
 import { Container, Content } from './styles';
 import { useModule } from '../../hooks/useModule';
 import { Button } from '../Button';
+import { Module } from '../../interfaces/Module';
 
 interface FormProps {
   name: string;
@@ -95,9 +96,11 @@ export const LessonComponent = () => {
         <form onSubmit={lessonId ? handleSubmit(onSubmitEdit) : handleSubmit(onSubmit)}>
           <select {...register('moduleName')}>
             {lessonId ? (
-              <option key={nameModule} value={nameModule}>
-                {nameModule}
-              </option>
+              modules.map((module) => (
+                <option key={module.id} value="teste">
+                  {module.name}
+                </option>
+              ))
             )
               : modules.map((module) => (
                 <option key={module.id} value={module.name}>
