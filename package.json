@@ -46,7 +46,16 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:coverage": "react-scripts test --coverage --watchAll false"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/pages/**/*.tsx",
+      "src/components/**/*.tsx",
+      "src/hooks/*.tsx",
+      "!src/hooks/index.tsx"
+    ]
   },
   "browserslist": {
     "production": [
@@ -63,6 +72,7 @@
   "devDependencies": {
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/react-datepicker": "^4.1.7",
     "@types/react-router-dom": "^5.3.1",
     "@types/styled-components": "^5.1.15",
@@ -70,6 +80,7 @@
     "@types/yup": "^0.29.13",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
+    "axios-mock-adapter": "^1.20.0",
     "commitizen": "^4.2.4",
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "3.3.0",
@@ -84,7 +95,8 @@
     "eslint-plugin-react-hooks": "^4",
     "husky": "4.3.8",
     "lint-staged": "^11.2.6",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "react-test-renderer": "^17.0.2"
   },
   "config": {
     "commitizen": {
