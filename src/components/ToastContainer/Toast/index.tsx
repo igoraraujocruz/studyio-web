@@ -1,5 +1,5 @@
 import {
-  FiAlertCircle, FiXCircle, FiCheckCircle, FiInfo,
+  FiAlertCircle, FiXCircle, FiInfo,
 } from 'react-icons/fi';
 import { useEffect } from 'react';
 import { ToastMessage, useToast } from '../../../hooks/useToast';

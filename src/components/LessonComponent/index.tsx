@@ -3,12 +3,10 @@ import { useForm } from 'react-hook-form';
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 import { useLesson } from '../../hooks/useLesson';
 import { api } from '../../services/api';
-import { Input } from '../Input';
 import { useToast } from '../../hooks/useToast';
 import { Container, Content } from './styles';
 import { useModule } from '../../hooks/useModule';
 import { Button } from '../Button';
-import { Module } from '../../interfaces/Module';
 
 interface FormProps {
   name: string;
@@ -39,7 +37,6 @@ export const LessonComponent = () => {
   const { modules } = useModule();
 
   const onSubmit = (data: FormProps) => {
-    console.log(data);
     createLesson({
       name: data.name,
       description: data.description,
