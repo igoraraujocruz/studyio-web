@@ -4,7 +4,7 @@ export const Container = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #232129;
+    background-color: var(--background);
     font-size: 1rem;
     height: 4rem;
     border-radius: 1rem;

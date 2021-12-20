@@ -1,126 +1,73 @@
-import { useCallback, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
+import { useForm, Controller } from 'react-hook-form';
+import { BsCalendarDate } from 'react-icons/bs';
+import DatePicker from 'react-datepicker';
 import { useLesson } from '../../hooks/useLesson';
-import { api } from '../../services/api';
-import { useToast } from '../../hooks/useToast';
-import { Container, Content } from './styles';
-import { useModule } from '../../hooks/useModule';
+import { Container, Date } from './styles';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Button } from '../Button';
+import { useModule } from '../../hooks/useModule';
 
-interface FormProps {
+interface InputProps {
   name: string;
   description: string;
   date: string;
   moduleName: string;
 }
 
-interface LessonProps {
-  id: string;
-  name: string;
-  description: string;
-  moduleId: string;
-  date: string;
-}
-
-export const LessonComponent = () => {
-  const {
-    register, handleSubmit, getValues, reset,
-  } = useForm();
-  const [lessonId, setLessonId] = useState('');
-  const [nameModule, setNameModule] = useState('');
-  const [editValueLesson, setEditValueLesson] = useState<LessonProps>({} as LessonProps);
-  const { addToast } = useToast();
-  const {
-    createLesson, editLesson, removeLesson, lessons,
-  } = useLesson();
+export function LessonComponent() {
+  const { createLesson } = useLesson();
   const { modules } = useModule();
-
-  const onSubmit = (data: FormProps) => {
+  const {
+    register, handleSubmit, watch, formState: { errors }, reset,
+    control,
+  } = useForm();
+  const onSubmit = (data: InputProps) => {
     createLesson({
+      moduleName: data.moduleName,
       name: data.name,
       description: data.description,
-      moduleName: data.moduleName,
       date: data.date,
     });
     reset();
   };
 
-  const onSubmitEdit = (data: FormProps) => {
-    const multipleValues = getValues(['moduleName', 'name', 'description', 'date']);
-    editLesson({
-      id: editValueLesson.id,
-      moduleName: multipleValues[0] === '' ? nameModule : data.moduleName,
-      name: multipleValues[1] === '' ? editValueLesson.name : data.name,
-      description: multipleValues[2] === '' ? editValueLesson.description : data.description,
-      date: multipleValues[3] === '' ? editValueLesson.date : data.date,
-    });
-
-    reset();
-    setLessonId('');
-  };
-
-  useEffect(() => {
-    api.get(`lessons/${lessonId}`)
-      .then((response) => setEditValueLesson(response.data));
-  }, [lessonId]);
-
-  useEffect(() => {
-    api.get(`modules/${editValueLesson.moduleId}`)
-      .then((response) => setNameModule(response.data.name));
-  }, [lessonId, editValueLesson]);
-
-  const handleDelete = useCallback(async (id: string) => {
-    try {
-      removeLesson(id);
-
-      addToast({
-        type: 'success',
-        title: 'Aula excluída com sucesso',
-      });
-    } catch (err) {
-      addToast({
-        type: 'error',
-        title: 'Não foi possível excluir o módulo',
-        description: 'tente novamente',
-      });
-    }
-  }, [removeLesson, addToast]);
-
   return (
     <Container>
-      <Content>
-        <form onSubmit={lessonId ? handleSubmit(onSubmitEdit) : handleSubmit(onSubmit)}>
-          <select {...register('moduleName')}>
-            {lessonId ? (
-              modules.map((module) => (
-                <option key={module.id} value="teste">
-                  {module.name}
-                </option>
-              ))
-            )
-              : modules.map((module) => (
-                <option key={module.id} value={module.name}>
-                  {module.name}
-                </option>
-              ))}
-          </select>
-          <input defaultValue={editValueLesson.name} type="text" {...register('name')} placeholder="nome" />
-          <input defaultValue={editValueLesson.description} type="text" {...register('description')} placeholder="descrição" />
-          <input defaultValue={editValueLesson.date} type="text" {...register('date')} placeholder="data" />
-          <Button type="submit">Enviar</Button>
-        </form>
-        <div className="existModules">
-          <h3>Aulas existentes:</h3>
-          {lessons.map((lesson) => (
-            <ul key={lesson.id} className="modules">
-              <li>{lesson.name}</li>
-              <AiOutlineEdit size={20} onClick={() => setLessonId(lesson.id)} />
-              <AiOutlineDelete size={20} onClick={() => handleDelete(lesson.id)} />
-            </ul>
-          ))}
-        </div>
-      </Content>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <select {...register('moduleName')} placeholder="teste">
+          <option value="" disabled selected>Selecione o Módulo</option>
+          {
+            modules.map((module) => (
+              <option key={module.id}>
+                {module.name}
+              </option>
+            ))
+          }
+        </select>
+        <input {...register('name', { required: true })} placeholder="Nome da Lição" />
+        <textarea {...register('description', {})} placeholder="[Opcional] Escreva uma descrição para a lição" />
+
+        <Controller
+          name="date"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Date>
+              <DatePicker
+                dateFormat="dd/MM/yyyy"
+                onChange={onChange}
+                selected={value}
+                placeholderText="Insira a data da aula"
+                className="datePicker"
+              />
+              <BsCalendarDate size={30} />
+            </Date>
+          )}
+        />
+
+        {errors.name && <span>O campo nome é obrigatório</span>}
+
+        <Button type="submit" className="btnSubmit">Registrar Lição</Button>
+      </form>
     </Container>
   );
-};
+}
